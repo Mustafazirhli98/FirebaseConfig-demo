@@ -7,9 +7,8 @@ import { authenticate } from './firebaseConfig';
 export default function App() {
   const [token, setToken] = useState("")
 
-  const email = "mustafazirhli98@gmail.com"
-  const password = "123456789"
-
+  // const email = "mustafazirhli98@gmail.com"
+  // const password = "123456789"
   // useEffect(() => {
   //   const login = async () => {
   //     await signInWithEmailAndPassword(authenticate, email, password).then((UserCredentials) => {
@@ -23,7 +22,7 @@ export default function App() {
   //   , [])
 
   const createUser = () => {
-    const email = "12345@gmail.com"
+    const email = "123456@gmail.com"
     const password = "123456789"
     createUserWithEmailAndPassword(authenticate, email, password).then((UserCredentials) => {
       setToken(UserCredentials._tokenResponse.idToken)
