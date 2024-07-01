@@ -1,28 +1,46 @@
 import { StatusBar } from 'expo-status-bar';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { StyleSheet, Text, View } from 'react-native';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { authenticate } from './firebaseConfig';
 
 export default function App() {
-  const [user, setUser] = useState(null)
+  const [token, setToken] = useState("")
 
-  const auth = authenticate
   const email = "mustafazirhli98@gmail.com"
   const password = "123456789"
 
-  useEffect(() => {
-    signInWithEmailAndPassword(auth, email, password).then((UserCredential) => {
-      setUser(UserCredential.user)
+  // useEffect(() => {
+  //   const login = async () => {
+  //     await signInWithEmailAndPassword(authenticate, email, password).then((UserCredentials) => {
+  //       setToken(UserCredentials.user)
+  //     }).catch((error) => {
+  //       console.log(error)
+  //     });
+  //   }
+  //   login()
+  // }
+  //   , [])
+
+
+  const createUser = () => {
+    const email = "12345@gmail.com"
+    const password = "123456789"
+    createUserWithEmailAndPassword(authenticate, email, password).then((UserCredentials) => {
+      setToken(UserCredentials._tokenResponse.idToken)
     }).catch((error) => {
-      setUser(error.message)
-    });
-  }, [])
-  console.log(user)
+      console.log(error)
+    })
+  }
+
+  const logOut = () => {
+    setToken("")
+  }
 
   return (
     <View style={styles.container}>
-      <Text>{user ? "login" : "log out"}</Text>
+      <Text>{token ? "login" : "logged out"}</Text>
+      <Button title={token ? "logout" : "Sign Up"} onPress={token ? logOut : createUser} />
       <StatusBar style="auto" />
     </View>
   );
